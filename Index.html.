@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #1a1a1a;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+
+        /* Star & Floating Heart Background */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite;
+        }
+
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        .floating-heart {
+            position: fixed;
+            color: rgba(255, 175, 189, 0.4);
+            font-size: 20px;
+            z-index: -1;
+            user-select: none;
+            pointer-events: none;
+            animation: floatUpBackground var(--duration) linear infinite;
+        }
+
+        @keyframes floatUpBackground {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Card Styling */
+        .valentine-card {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 175, 189, 0.2);
+            border: 1px solid rgba(255, 175, 189, 0.3);
+            z-index: 10;
+            max-width: 450px;
+            width: 90%;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Countdown Timer Styling */
+        #timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            font-family: 'Shadows Into Light', cursive;
+        }
+        .time-box {
+            background: rgba(255, 75, 43, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 60px;
+            border: 1px solid rgba(255, 175, 189, 0.2);
+        }
+        .time-num {
+            display: block;
+            font-size: 1.8rem;
+            color: #ffafbd;
+            font-weight: bold;
+        }
+        .time-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        .btn {
+            background: #ff4b2b;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-family: 'Dancing Script', cursive;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            background: #ffafbd;
+        }
+
+        .rules-section {
+            background: rgba(255, 255, 255, 0.05);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px dashed #ffafbd;
+            text-align: left;
+        }
+
+        .rules-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .rules-list li {
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #ffdae0;
+        }
+
+        .rules-list li::before {
+            content: "📜";
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .trail-heart {
+            position: fixed;
+            font-size: 2rem;
+            animation: winFloat 2s linear forwards;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes winFloat {
+            to { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="valentine-card">
+        <div class="sticker s3" style="font-size: 3rem;">💍</div>
+        <div id="askContainer">
+            <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem; color: #ffafbd; margin-bottom: 10px;">Will you be my Valentine?</h2>
+            
+            <div id="timer">
+                <div class="time-box"><span class="time-num" id="days">00</span><span class="time-label">Days</span></div>
+                <div class="time-box"><span class="time-num" id="hours">00</span><span class="time-label">Hrs</span></div>
+                <div class="time-box"><span class="time-num" id="minutes">00</span><span class="time-label">Min</span></div>
+                <div class="time-box"><span class="time-num" id="seconds">00</span><span class="time-label">Sec</span></div>
+            </div>
+
+            <div class="rules-section">
+                <h2 style="font-family: 'Dancing Script'; color: #ffafbd; text-align: center; margin-top: 0;">Rules to be my Valentine 📋</h2>
+                <ul class="rules-list">
+                    <li><strong>Rule #1:</strong> You must provide unlimited forehead kisses upon request.</li>
+                    <li><strong>Rule #2:</strong> You are not allowed to be "too handsome" in public.</li>
+                    <li><strong>Rule #3:</strong> In every argument, I am right.</li>
+                    <li><strong>Rule #4:</strong> You must agree you love me more, though I love you hamesha.</li>
+                    <li><strong>Rule #5:</strong> No refunds or exchanges. Stuck with me forever.</li>
+                </ul>
+            </div>
+
+            <div class="btn-box">
+                <button class="btn" id="yesBtn" onclick="win()">YES!</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // 1. Countdown Logic
+        const targetDate = new Date("June 15, 2026 00:00:00").getTime();
+
+        const updateTimer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(updateTimer);
+                document.getElementById("timer").innerHTML = "<h3>The Big Day is Here! ❤️</h3>";
+            }
+        }, 1000);
+
+        // 2. Stars and Hearts Background
+        for (let i = 0; i < 60; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3 + 'px';
+            star.style.width = size; star.style.height = size;
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+            document.body.appendChild(star);
+        }
+
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.setProperty('--duration', Math.random() * 10 + 10 + 's');
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(heart);
+        }
+
+        // 3. Success Function
+        function win() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ffafbd', '#ff4b2b', '#ffffff']
+            });
+
+            document.querySelector('.valentine-card').innerHTML = 
+            `<div style="padding: 20px;">
+                <div style="font-size: 4rem; margin-bottom: 20px;">💖</div>
+                <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem; color: #ffafbd; margin:0;">
+                Yay! I knew you'd say yes! ❤️<br><br>I love you forever, Zaki!</h2>
+            </div>`;
+            
+            for(let i=0; i<30; i++) {
+                setTimeout(() => {
+                    let heart = document.createElement('div');
+                    heart.className = 'trail-heart';
+                    heart.innerHTML = '💖';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = '100vh';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 2000);
+                }, i * 200);
+            }
+        }
+    </script>
+</body>
+              </html>
+              
